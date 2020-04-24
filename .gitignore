@@ -5,6 +5,14 @@ hypriot.img
 collectedLogs/
 collectedLogs.zip
 
+# Bloop/Metals specific
+.bloop/
+.metals/
+project/metals.sbt
+
+# VCS specific
+.vscode/
+
 # sbt specific
 .cache/
 .history/
