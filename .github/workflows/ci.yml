@@ -2,6 +2,7 @@ name: Scala Course CI
 
 on:
   push:
+    branches: [ exercises-master ]
   pull_request:
     branches: [ exercises-master ]
 
@@ -15,6 +16,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: course-master
+          
+      - name: change directory
+        run: cd "$GITHUB_WORKSPACE"
         
       - name: Checkout Course Management Tools
         uses: actions/checkout@v2
@@ -40,7 +44,7 @@ jobs:
       
       - name: Generate Tests Script using CMT
         run: |
-          (cd CMT/ && exec sbt "masteradm -dot -t $GITHUB_WORKSPACE/runTests.sh $GITHUB_WORKSPACE/lunatech-scala-2-to-scala3-course")
+          (cd CMT/ && exec sbt "masteradm -dot -t ../runTests.sh $GITHUB_WORKSPACE/course-master")
           cat runTests.sh
      
       - name: Run Tests
