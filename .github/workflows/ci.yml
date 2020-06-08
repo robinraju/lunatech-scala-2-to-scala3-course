@@ -40,9 +40,10 @@ jobs:
       - name: Generate Tests Script using CMT
         run: |
           (cd CMT/ && exec sbt "masteradm -dot -t ../runTests.sh $GITHUB_WORKSPACE/course-master")
-          chmod +x runTests.sh
           cat runTests.sh
      
       - name: Run Tests
-        run: ./runTests.sh
+        run: |
+          chmod +x runTests.sh
+          ./runTests.sh
           
