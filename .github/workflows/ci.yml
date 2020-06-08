@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout Course Repo
         uses: actions/checkout@v2
-        with:
-          path: course-master
         
       - name: Checkout Course Management Tools
         uses: actions/checkout@v2
@@ -34,16 +32,16 @@ jobs:
           path: | 
             ~/.ivy2/cache
             ~/.sbt
-          key: ${{ runner.os }}-sbt-ivy-${{ hashFiles('**/build.sbt') }}
-          restore-keys: ${{ runner.os }}-sbt-ivy-
+          key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}
+          restore-keys: ${{ runner.os }}-sbt-ivy-cache-
       
       - name: Generate Tests Script using CMT
         run: |
-          (cd CMT/ && exec sbt "masteradm -dot -t ../runTests.sh $GITHUB_WORKSPACE/course-master")
+          (cd CMT/ && exec sbt "masteradm -dot -t ../runTests.sh $GITHUB_WORKSPACE/lunatech-scala-2-to-scala3-course")
           cat runTests.sh
      
       - name: Run Tests
         run: |
           chmod +x runTests.sh
-          sh ./runTests.sh
+          ./runTests.sh
           
