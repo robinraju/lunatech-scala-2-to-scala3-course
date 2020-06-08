@@ -18,7 +18,7 @@ jobs:
           path: course-master
           
       - name: change directory
-        run: cd "$GITHUB_WORKSPACE"
+        run: cd ..
         
       - name: Checkout Course Management Tools
         uses: actions/checkout@v2
@@ -50,5 +50,5 @@ jobs:
       - name: Run Tests
         run: |
           chmod +x runTests.sh
-          ./runTests.sh
+          sh ./runTests.sh
           
