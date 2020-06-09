@@ -14,15 +14,14 @@ jobs:
     steps:
       - name: Checkout Course Repo
         uses: actions/checkout@v2
-        with:
-          path: course-master
-          fetch-depth: 1
+#         with:
+#           path: course-master
         
       - name: Checkout Course Management Tools
         uses: actions/checkout@v2
         with:
           repository: lightbend/course-management-tools
-          path: CMT
+#           path: CMT
 
       - name: List workspace contents
         run: |
