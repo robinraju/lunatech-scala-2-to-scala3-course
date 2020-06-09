@@ -18,7 +18,7 @@ jobs:
         with:
           path: course-master
 #           fetch-depth: 0
-#           clean: false
+          clean: false
         
 #       - name: Checkout Course Management Tools
 #         uses: actions/checkout@v2
