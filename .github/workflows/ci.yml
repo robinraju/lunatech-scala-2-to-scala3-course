@@ -47,8 +47,14 @@ jobs:
       
       - name: Generate Tests Script using CMT
         run: |
-          (cd CMT/ && exec sbt "masteradm -dot -t ../runTests $GITHUB_WORKSPACE/lunatech-scala-2-to-scala3-course")
+          (cd CMT/ && exec sbt "masteradm -dot -t $GITHUB_WORKSPACE/runTests $GITHUB_WORKSPACE/lunatech-scala-2-to-scala3-course")
           cat runTests.sh
+          
+      - name: List workspace contents
+        run: |
+          ls -l
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          echo "PWD: $(pwd)"
      
       - name: Run Tests
         run: |
