@@ -55,5 +55,5 @@ jobs:
       - name: Run Tests
         run: |
           chmod +x runTests
-          sh ./runTests
+          ./runTests
           
