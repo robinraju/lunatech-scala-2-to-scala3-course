@@ -19,6 +19,7 @@ jobs:
           bash    
           set -o | grep pipefail                                              
           set -o pipefail
+          set -o | grep pipefail  
           echo "starting sh" 
           sh
           set -o pipefail
