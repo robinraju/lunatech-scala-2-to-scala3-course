@@ -14,10 +14,12 @@ jobs:
     steps:
       - name: Debug shell
         run: |
-          ls -l /bin/sh
-          dash    
+          ls -l /bin/bash
+          echo "starting bash"
+          bash    
           set -o | grep pipefail                                              
           set -o pipefail
+          echo "starting sh" 
           sh
           set -o pipefail
           bash --posix
