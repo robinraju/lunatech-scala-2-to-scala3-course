@@ -18,17 +18,8 @@ jobs:
         with:
           path: course-master
           fetch-depth: 0
-          
-      - name: Cache Course Management Tools repo
-        uses: actions/cache@v2
-        id: cache_cmt
-        with:
-          path: $GITHUB_WORSPACE/CMT
-          key: ${{ runner.os }}-cmt-${{ hashFiles('CMT/**') }}
         
       - name: Checkout Course Management Tools
-        # Skip this step if CMT is present in the cache
-        if: steps.cache_cmt.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           repository: lightbend/course-management-tools
