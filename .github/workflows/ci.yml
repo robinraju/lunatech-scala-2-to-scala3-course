@@ -54,57 +54,54 @@ jobs:
     
     steps:
       
-      - name: Debug
-        run: |
-          echo $GITHUB_ACTOR
-#          git config --global user.email "you@example.com"
-#          git config --global user.name "Your Name"
-#       - name: Checkout Course Management Tools
-#         uses: actions/checkout@v2
-#         with:
-#           repository: lightbend/course-management-tools
-#           path: CMT
+      - name: Checkout Course Management Tools
+        uses: actions/checkout@v2
+        with:
+          repository: lightbend/course-management-tools
+          path: CMT
           
-#       - name: Checkout Course Repo
-#         uses: actions/checkout@v2
-#         with:
-#           path: lunatech-scala-2-to-scala3-course
-#           fetch-depth: 0          
+      - name: Checkout Course Repo
+        uses: actions/checkout@v2
+        with:
+          path: lunatech-scala-2-to-scala3-course
+          fetch-depth: 0          
       
-#       - name: Set up JDK 11
-#         uses: actions/setup-java@v1
-#         with:
-#           java-version: 11
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
       
-#       - name: Cache Ivy
-#         uses: actions/cache@v1.1.2
-#         with:
-#           path: ~/.ivy2/cache
-#           key: ${{ runner.os }}-ivy--${{ hashFiles('**/build.sbt') }}
-#           restore-keys: ${{ runner.os }}-ivy-
+      - name: Cache Ivy
+        uses: actions/cache@v1.1.2
+        with:
+          path: ~/.ivy2/cache
+          key: ${{ runner.os }}-ivy--${{ hashFiles('**/build.sbt') }}
+          restore-keys: ${{ runner.os }}-ivy-
 
-#       - name: Cache SBT
-#         uses: actions/cache@v2
-#         with:
-#           path: ~/.sbt            
-#           key: ${{ runner.os }}-sbt-${{ hashFiles('project/**') }}
-#           restore-keys: ${{ runner.os }}-sbt-
+      - name: Cache SBT
+        uses: actions/cache@v2
+        with:
+          path: ~/.sbt            
+          key: ${{ runner.os }}-sbt-${{ hashFiles('project/**') }}
+          restore-keys: ${{ runner.os }}-sbt-
       
-#       - name: Studentify Repo
-#         run: |
-#           mkdir -p studentified
-#           (cd CMT/ && exec sbt "studentify -dot ../lunatech-scala-2-to-scala3-course ../studentified")
+      - name: Studentify Repo
+        run: |
+          mkdir -p studentified
+          (cd CMT/ && exec sbt "studentify -dot ../lunatech-scala-2-to-scala3-course ../studentified")
           
-#       - name: Linearize Repo
-#         run: |
-#           mkdir -p linearized
-#           (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")    
+      - name: Linearize Repo
+        run: |
+          mkdir -p linearized
+          git config user.email "no-reply@lunatech.com"
+          git config user.name "Lunatech"
+          (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")    
       
-#       - name:  List directory
-#         run: |
-#           ls -l
-#           echo "PWD: $(pwd)"
-#           (cd studentified/lunatech-scala-2-to-scala3-course && exec ls -l)
-#           (cd linearized/lunatech-scala-2-to-scala3-course && exec ls -l)
+      - name:  List directory
+        run: |
+          ls -l
+          echo "PWD: $(pwd)"
+          (cd studentified/lunatech-scala-2-to-scala3-course && exec ls -l)
+          (cd linearized/lunatech-scala-2-to-scala3-course && exec ls -l)
           
           
