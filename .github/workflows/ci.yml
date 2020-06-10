@@ -93,21 +93,51 @@ jobs:
         run: |
           mkdir -p studentified
           (cd CMT/ && exec sbt "studentify -dot ../lunatech-scala-2-to-scala3-course ../studentified")
+          zip -r studentified/lunatech-scala-2-to-scala3-course.zip studentified/lunatech-scala-2-to-scala3-course  
           
       - name: Linearize Repo
         run: |
           mkdir -p linearized
           git config --global user.email "no-reply@lunatech.com"
           git config --global user.name "Lunatech"
-          (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")    
+          (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")
+          zip -r linearized/lunatech-scala-2-to-scala3-course.lin.zip linearized/lunatech-scala-2-to-scala3-course    
       
       - name:  List directory
         run: |
           ls -l
           echo "PWD: $(pwd)"
-          (cd studentified/lunatech-scala-2-to-scala3-course && exec ls -l)
-          cd linearized/lunatech-scala-2-to-scala3-course
-          ls -l
-          git log
+          (cd studentified && exec ls -l)
+          (cd linearized && exec ls -l)
+        
+      - name: Create Github Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
           
+      - name: Upload Studentified repo to Github release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # release created from previous step
+          asset_path: ./studentified/lunatech-scala-2-to-scala3-course.zip
+          asset_name: lunatech-scala-2-to-scala3-course.zip
+          asset_content_type: application/zip
+     
+      - name: Upload Linearized repo to Github release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # release created from previous step
+          asset_path: ./linearized/lunatech-scala-2-to-scala3-course.lin.zip
+          asset_name: lunatech-scala-2-to-scala3-course.lin.zip
+          asset_content_type: application/zip
           
