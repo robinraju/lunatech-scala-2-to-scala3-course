@@ -93,8 +93,8 @@ jobs:
       - name: Linearize Repo
         run: |
           mkdir -p linearized
-          git config user.email "no-reply@lunatech.com"
-          git config user.name "Lunatech"
+          git config --global user.email "no-reply@lunatech.com"
+          git config --global user.name "Lunatech"
           (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")    
       
       - name:  List directory
