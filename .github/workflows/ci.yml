@@ -72,18 +72,22 @@ jobs:
           java-version: 11
       
       - name: Cache Ivy
-        uses: actions/cache@v1.1.2
+        uses: actions/cache@v2
         with:
           path: ~/.ivy2/cache
           key: ${{ runner.os }}-ivy--${{ hashFiles('**/build.sbt') }}
-          restore-keys: ${{ runner.os }}-ivy-
+          restore-keys: |
+            ${{ runner.os }}-ivy-
+            ${{ runner.os }}-
 
       - name: Cache SBT
         uses: actions/cache@v2
         with:
           path: ~/.sbt            
           key: ${{ runner.os }}-sbt-${{ hashFiles('project/**') }}
-          restore-keys: ${{ runner.os }}-sbt-
+          restore-keys: |
+            ${{ runner.os }}-sbt-            
+            ${{ runner.os }}-
       
       - name: Studentify Repo
         run: |
@@ -102,6 +106,8 @@ jobs:
           ls -l
           echo "PWD: $(pwd)"
           (cd studentified/lunatech-scala-2-to-scala3-course && exec ls -l)
-          (cd linearized/lunatech-scala-2-to-scala3-course && exec ls -l)
+          cd linearized/lunatech-scala-2-to-scala3-course
+          ls -l
+          git log
           
           
