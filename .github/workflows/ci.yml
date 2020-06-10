@@ -24,9 +24,9 @@ jobs:
         id: cache_cmt
         with:
           path: $GITHUB_WORSPACE/CMT
-          key: ${{ runner.os }}-cmt-cache-${{ hashFiles('CMT/**') }}
+          key: ${{ runner.os }}-cmt-${{ hashFiles('CMT/**') }}
           restore-keys: |
-            ${{ runner.os }}-cmt-cache-
+            ${{ runner.os }}-cmt-
             ${{ runner.os }}-
         
       - name: Checkout Course Management Tools
