@@ -112,7 +112,7 @@ jobs:
           git config --global user.name "Lunatech Labs"
           (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")
           (cd linearized && exec mv lunatech-scala-2-to-scala3-course lunatech-scala-2-to-scala3-course-linearized \
-          && zip -r lunatech-scala-2-to-scala3-course-linearized.zip lunatech-scala-2-to-scala3-course-linearized)
+          "|" zip -r lunatech-scala-2-to-scala3-course-linearized.zip lunatech-scala-2-to-scala3-course-linearized)
       
       - name: List directory
         run: |
