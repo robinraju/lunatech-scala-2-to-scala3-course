@@ -31,27 +31,26 @@ object SudokuDetailProcessor {
 
   trait UpdateSender[A] {
     def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit
-
     def processorName(id: Int): String
   }
 
   implicit val rowUpdateSender: UpdateSender[Row] = new UpdateSender[Row] {
-    override def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit = {
+    def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit = {
       sender ! RowUpdate(id, cellUpdates)
     }
-    override def processorName(id: Int): String = s"row-processor-$id"
+    def processorName(id: Int): String = s"row-processor-$id"
   }
 
   implicit val columnUpdateSender: UpdateSender[Column] = new UpdateSender[Column] {
-    override def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit =
+    def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit =
       sender ! ColumnUpdate(id, cellUpdates)
-    override def processorName(id: Int): String = s"col-processor-$id"
+    def processorName(id: Int): String = s"col-processor-$id"
   }
 
   implicit val blockUpdateSender: UpdateSender[Block] = new UpdateSender[Block] {
-    override def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit =
+    def sendUpdate(id: Int, cellUpdates: CellUpdates)(implicit sender: ActorRef[Response]): Unit =
       sender ! BlockUpdate(id, cellUpdates)
-    override def processorName(id: Int): String = s"blk-processor-$id"
+    def processorName(id: Int): String = s"blk-processor-$id"
   }
 }
 
@@ -93,14 +92,14 @@ class SudokuDetailProcessor[DetailType <: SudokoDetailType : UpdateSender] priva
   }
 
   private def mergeState(state: ReductionSet, cellUpdates: CellUpdates): ReductionSet = {
-      (cellUpdates foldLeft state) {
+      cellUpdates.foldLeft(state) {
       case (stateTally, (index, updatedCellContent)) =>
         stateTally.updated(index, stateTally(index) & updatedCellContent)
     }
   }
 
   private def stateChanges(state: ReductionSet, updatedState: ReductionSet): CellUpdates = {
-    ((state zip updatedState).zipWithIndex foldRight cellUpdatesEmpty) {
+    (state zip updatedState).zipWithIndex.foldRight(cellUpdatesEmpty) {
       case (((previousCellContent, updatedCellContent), index), cellUpdates)
         if updatedCellContent != previousCellContent =>
         (index, updatedCellContent) +: cellUpdates

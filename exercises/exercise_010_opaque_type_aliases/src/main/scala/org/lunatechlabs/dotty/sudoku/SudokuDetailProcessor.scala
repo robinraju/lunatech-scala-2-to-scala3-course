@@ -35,7 +35,6 @@ object SudokuDetailProcessor {
 
   trait UpdateSender[A] {
     def sendUpdate(id: Int, cellUpdates: CellUpdates)(using sender: ActorRef[Response]): Unit
-
     def processorName(id: Int): String
   }
 
@@ -43,19 +42,19 @@ object SudokuDetailProcessor {
     override def sendUpdate(id: Int, cellUpdates: CellUpdates)(using sender: ActorRef[Response]): Unit = {
       sender ! RowUpdate(id, cellUpdates)
     }
-    override def processorName(id: Int): String = s"row-processor-$id"
+    def processorName(id: Int): String = s"row-processor-$id"
   }
 
   given UpdateSender[Column] {
     override def sendUpdate(id: Int, cellUpdates: CellUpdates)(using sender: ActorRef[Response]): Unit =
       sender ! ColumnUpdate(id, cellUpdates)
-    override def processorName(id: Int): String = s"col-processor-$id"
+    def processorName(id: Int): String = s"col-processor-$id"
   }
 
   given UpdateSender[Block] {
     override def sendUpdate(id: Int, cellUpdates: CellUpdates)(using sender: ActorRef[Response]): Unit =
       sender ! BlockUpdate(id, cellUpdates)
-    override def processorName(id: Int): String = s"blk-processor-$id"
+    def processorName(id: Int): String = s"blk-processor-$id"
   }
 }
 
@@ -100,14 +99,14 @@ class SudokuDetailProcessor[DetailType <: SudokoDetailType : UpdateSender] priva
   }
 
   private def mergeState(state: ReductionSet, cellUpdates: CellUpdates): ReductionSet = {
-      (cellUpdates foldLeft state) {
+      cellUpdates.foldLeft(state) {
       case (stateTally, (index, updatedCellContent)) =>
         stateTally.updated(index, stateTally(index) & updatedCellContent)
     }
   }
 
   private def stateChanges(state: ReductionSet, updatedState: ReductionSet): CellUpdates = {
-    ((state zip updatedState).zipWithIndex foldRight cellUpdatesEmpty) {
+    (state zip updatedState).zipWithIndex.foldRight(cellUpdatesEmpty) {
       case (((previousCellContent, updatedCellContent), index), cellUpdates)
         if updatedCellContent != previousCellContent =>
         (index, updatedCellContent) +: cellUpdates
