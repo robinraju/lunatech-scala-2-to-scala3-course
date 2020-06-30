@@ -3,9 +3,9 @@ name: Scala Course CI
 on:
   push:
     tags: '*'
-    branches: [ exercises-master ]
+    branches: [ main ]
   pull_request:
-    branches: [ exercises-master ]
+    branches: [ main ]
 
 jobs:
   validate_course:
@@ -104,14 +104,14 @@ jobs:
       - name: Studentify Repo
         run: |
           mkdir -p studentified
-          (cd CMT/ && exec sbt "studentify -dot ../lunatech-scala-2-to-scala3-course ../studentified")
+          git config --global user.email "no-reply@lunatech.com"
+          git config --global user.name "Lunatech Labs"
+          (cd CMT/ && exec sbt "studentify -dot -g ../lunatech-scala-2-to-scala3-course ../studentified")
           (cd studentified && exec zip -r lunatech-scala-2-to-scala3-course-student.zip lunatech-scala-2-to-scala3-course)  
           
       - name: Linearize Repo
         run: |
           mkdir -p linearized
-          git config --global user.email "no-reply@lunatech.com"
-          git config --global user.name "Lunatech Labs"
           (cd CMT/ && exec sbt "linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized")
           mv linearized/lunatech-scala-2-to-scala3-course linearized/lunatech-scala-2-to-scala3-course-linearized
           (cd linearized && exec zip -r lunatech-scala-2-to-scala3-course-linearized.zip lunatech-scala-2-to-scala3-course-linearized)
@@ -134,7 +134,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # release created from previous step
           asset_path: ./studentified/lunatech-scala-2-to-scala3-course-student.zip
-          asset_name: lunatech-scala-2-to-scala3-course.zip
+          asset_name: lunatech-scala-2-to-scala3-course-student.zip
           asset_content_type: application/zip
      
       - name: Upload Linearized repo to Github release
