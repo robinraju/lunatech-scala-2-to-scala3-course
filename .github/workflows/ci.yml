@@ -55,6 +55,8 @@ jobs:
      
       - name: Run Tests
         run: |
+          git config --global user.email "no-reply@lunatech.com"
+          git config --global user.name "Lunatech Labs"
           chmod +x runTests
           ./runTests
           
