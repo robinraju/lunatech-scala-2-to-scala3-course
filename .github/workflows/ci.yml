@@ -53,13 +53,13 @@ jobs:
         run: |
           git config --global user.email "no-reply@lunatech.com"
           git config --global user.name "Lunatech Labs"
-          export PATH=${PATH}:$GITHUB_WORKSPACE/CMT/bin
           (cd CMT/ && exec sbt "mainadm -dot -t ../runTests $GITHUB_WORKSPACE/course-repo")
      
       - name: Run Tests
         run: |
-          echo $PATH
+          export PATH=${PATH}:$GITHUB_WORKSPACE/CMT/bin
           chmod +x runTests
+          echo $PATH
           ./runTests
           
   create_release:
