@@ -51,12 +51,12 @@ jobs:
       
       - name: Generate Tests Script using CMT
         run: |
+          git config --global user.email "no-reply@lunatech.com"
+          git config --global user.name "Lunatech Labs"
           (cd CMT/ && exec sbt "mainadm -dot -t ../runTests $GITHUB_WORKSPACE/course-repo")
      
       - name: Run Tests
         run: |
-          git config --global user.email "no-reply@lunatech.com"
-          git config --global user.name "Lunatech Labs"
           chmod +x runTests
           ./runTests
           
@@ -106,8 +106,6 @@ jobs:
       - name: Studentify Repo
         run: |
           mkdir -p studentified
-          git config --global user.email "no-reply@lunatech.com"
-          git config --global user.name "Lunatech Labs"
           (cd CMT/ && exec sbt "studentify -dot -g ../lunatech-scala-2-to-scala3-course ../studentified")
           (cd studentified && exec zip -r lunatech-scala-2-to-scala3-course-student.zip lunatech-scala-2-to-scala3-course)  
           
