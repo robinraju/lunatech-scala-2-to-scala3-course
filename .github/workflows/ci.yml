@@ -58,6 +58,7 @@ jobs:
      
       - name: Run Tests
         run: |
+          echo $PATH
           chmod +x runTests
           ./runTests
           
