@@ -58,12 +58,12 @@ jobs:
         run: |
           git config --global user.email "no-reply@lunatech.com"
           git config --global user.name "Lunatech Labs"
-          cmt-mainadm -dot -t ../runTests $GITHUB_WORKSPACE/course-repo
+          cmt-mainadm -dot -t runTests.sh $GITHUB_WORKSPACE/course-repo
      
       - name: Run Tests
         run: |
-          chmod +x runTests
-          ./runTests
+          chmod +x runTests.sh
+          ./runTests.sh
           
   create_release:
     runs-on: ubuntu-latest
@@ -118,13 +118,13 @@ jobs:
           mkdir -p studentified
           git config --global user.email "no-reply@lunatech.com"
           git config --global user.name "Lunatech Labs"
-          cmt-studentify -dot -g ../lunatech-scala-2-to-scala3-course ../studentified
+          cmt-studentify -dot -g lunatech-scala-2-to-scala3-course studentified
           (cd studentified && exec zip -r lunatech-scala-2-to-scala3-course-student.zip lunatech-scala-2-to-scala3-course)  
           
       - name: Linearize Repo
         run: |
           mkdir -p linearized
-          cmt-linearize -dot ../lunatech-scala-2-to-scala3-course ../linearized
+          cmt-linearize -dot lunatech-scala-2-to-scala3-course linearized
           mv linearized/lunatech-scala-2-to-scala3-course linearized/lunatech-scala-2-to-scala3-course-linearized
           (cd linearized && exec zip -r lunatech-scala-2-to-scala3-course-linearized.zip lunatech-scala-2-to-scala3-course-linearized)
         
