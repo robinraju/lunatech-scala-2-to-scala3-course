@@ -80,7 +80,7 @@ jobs:
           fetch-depth: 0
           
       - name: Setup Course Management Tools
-        uses: robinraju/release-downloader@v1-beta
+        uses: robinraju/release-downloader@v1
         with:
           repository: eloots/course-management-tools
           tag: "1.0.0"
