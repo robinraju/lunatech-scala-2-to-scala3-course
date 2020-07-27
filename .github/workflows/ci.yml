@@ -27,7 +27,7 @@ jobs:
           latest: true
           fileName: "course-management-tools.zip"
           out-file-path: "."
-        run: |
+      - run: |
           unzip course-management-tools.zip
           echo "::add-path::$GITHUB_WORKSPACE/course-management-tools/bin"
       
@@ -86,7 +86,7 @@ jobs:
           latest: true
           fileName: "course-management-tools.zip"
           out-file-path: "."
-        run: |
+      - run: |
           unzip course-management-tools.zip
           echo "::add-path::$GITHUB_WORKSPACE/course-management-tools/bin"              
       
